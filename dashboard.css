@@ -272,8 +272,8 @@ select {
    EDITOR
 ========================= */
 
-.editor-card {
-  display: none;
+ .editor-card {
+  display: block;
 
   margin-bottom: 70px;
 
