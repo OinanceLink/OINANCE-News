@@ -664,3 +664,127 @@ select {
   border-radius: 12px;
   border: 1px solid #303030;
    }
+/* =========================
+   DASHBOARD LOGIN
+========================= */
+
+.login-screen {
+  min-height: calc(100vh - 76px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px 20px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #171717 0,
+      #050505 55%
+    );
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 38px;
+
+  border: 1px solid #303030;
+  border-radius: 18px;
+
+  background: #0b0b0b;
+
+  text-align: center;
+}
+
+.login-logo {
+  width: 70px;
+  height: 70px;
+
+  margin-bottom: 22px;
+
+  object-fit: cover;
+
+  border-radius: 16px;
+
+  background: #ffffff;
+}
+
+.login-card .eyebrow {
+  margin-bottom: 10px;
+}
+
+.login-card h1 {
+  margin-bottom: 10px;
+
+  font-size: 32px;
+
+  line-height: 1;
+}
+
+.login-card > p {
+  margin-bottom: 30px;
+
+  color: #777777;
+
+  font-size: 13px;
+}
+
+.login-card .form-group {
+  text-align: left;
+}
+
+.login-button {
+  width: 100%;
+
+  padding: 15px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #000000;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+}
+
+.login-message {
+  margin-top: 18px;
+
+  color: #999999;
+
+  font-size: 12px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .login-screen {
+    min-height: calc(100vh - 68px);
+
+    padding: 30px 18px;
+  }
+
+  .login-card {
+    padding: 28px 22px;
+  }
+
+  .login-card h1 {
+    font-size: 28px;
+  }
+
+}
