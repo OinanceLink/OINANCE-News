@@ -1,17 +1,39 @@
 /* =========================
-   OINANCE TECHNOLOGY 
+   OINANCE TECHNOLOGY
    MAIN WEBSITE JAVASCRIPT
 ========================= */
 
-document.addEventListener("DOMContentLoaded", function () {
 
-  const menuButton = document.getElementById("menuButton");
-  const mobileMenu = document.getElementById("mobileMenu");
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://ohvqwdtvtcqchuwethuw.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_PRGk5RJCVmUB--1ovLeC0g_qo25F6L3";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
      MOBILE MENU
   ========================= */
+
+  const menuButton =
+    document.getElementById("menuButton");
+
+  const mobileMenu =
+    document.getElementById("mobileMenu");
+
 
   if (menuButton && mobileMenu) {
 
@@ -28,10 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* Close menu after clicking a link */
-
     const mobileLinks =
       mobileMenu.querySelectorAll("a");
+
 
     mobileLinks.forEach(function (link) {
 
@@ -55,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const year =
     document.querySelector(".site-footer p");
 
+
   if (year) {
 
     year.textContent =
@@ -64,4 +86,194 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
+
+  /* =========================
+     LOAD OINANCE NEWS
+  ========================= */
+
+  loadNews();
+
 });
+
+
+/* =========================
+   LOAD NEWS FROM SUPABASE
+========================= */
+
+async function loadNews() {
+
+  const newsGrid =
+    document.getElementById("newsGrid");
+
+
+  if (!newsGrid) {
+    return;
+  }
+
+
+  try {
+
+    const { data, error } =
+      await supabaseClient
+        .from("news")
+        .select(
+          "id, title, category, author, story, image_url, created_at"
+        )
+        .eq("published", true)
+        .order("created_at", {
+          ascending: false
+        });
+
+
+    if (error) {
+
+      console.error(
+        "OINANCE News error:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    /* No articles yet */
+
+    if (!data || data.length === 0) {
+
+      newsGrid.innerHTML = `
+        <article class="news-placeholder">
+
+          <div class="placeholder-image"></div>
+
+          <div class="placeholder-content">
+
+            <span>OINANCE NEWS</span>
+
+            <h3>
+              OINANCE News is coming soon.
+            </h3>
+
+            <p>
+              Articles published through the
+              OINANCE Dashboard will appear here.
+            </p>
+
+          </div>
+
+        </article>
+      `;
+
+      return;
+
+    }
+
+
+    /* =========================
+       DISPLAY ARTICLES
+    ========================= */
+
+    newsGrid.innerHTML = "";
+
+
+    data.forEach(function (article) {
+
+      const card =
+        document.createElement("article");
+
+      card.className = "news-card";
+
+
+      const image =
+        article.image_url
+          ? `
+            <img
+              src="${escapeHTML(article.image_url)}"
+              alt="${escapeHTML(article.title)}"
+              class="news-image"
+            >
+          `
+          : `
+            <div class="placeholder-image"></div>
+          `;
+
+
+      const date =
+        new Date(article.created_at)
+          .toLocaleDateString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            }
+          );
+
+
+      card.innerHTML = `
+
+        ${image}
+
+        <div class="news-content">
+
+          <span class="news-category">
+            ${escapeHTML(article.category || "OINANCE NEWS")}
+          </span>
+
+          <h3>
+            ${escapeHTML(article.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(article.story)}
+          </p>
+
+          <div class="news-meta">
+
+            <span>
+              ${escapeHTML(article.author || "OINANCE")}
+            </span>
+
+            <span>
+              ${date}
+            </span>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      newsGrid.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error(
+      "Unexpected OINANCE News error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   SECURITY
+   PREVENT HTML INJECTION
+========================= */
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+  }
