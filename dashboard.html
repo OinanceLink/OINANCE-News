@@ -21,410 +21,459 @@
 
 <body>
 
-  <!-- HEADER -->
+  <!-- =========================
+       LOGIN SCREEN
+  ========================== -->
 
-  <header class="dashboard-header">
+  <div id="loginScreen" class="login-screen">
 
-    <a href="index.html" class="dashboard-brand">
+    <div class="login-card">
 
       <img
         src="file_000000001bdc81f496a425cbbdef65a7.png"
         alt="OINANCE Logo"
+        class="login-logo"
       >
 
-      <div>
-        <strong>OINANCE</strong>
-        <span>TECHNOLOGY</span>
-      </div>
+      <span class="eyebrow">
+        OINANCE TECHNOLOGY
+      </span>
 
-    </a>
+      <h1>Dashboard Login</h1>
 
-    <a
-      href="index.html"
-      class="website-link"
-    >
-      ← View Website
-    </a>
+      <p>
+        Sign in to manage OINANCE news articles.
+      </p>
 
-  </header>
-
-
-  <!-- DASHBOARD -->
-
-  <main class="dashboard-container">
-
-    <section class="dashboard-intro">
-
-      <div>
-
-        <span class="eyebrow">
-          OINANCE TECHNOLOGY
-        </span>
-
-        <h1>Dashboard</h1>
-
-        <p>
-          Manage your OINANCE Technology
-          website and publish news articles.
-        </p>
-
-      </div>
-
-      <button
-        id="newArticleButton"
-        class="primary-button"
-      >
-        + New Article
-      </button>
-
-    </section>
-
-
-    <!-- STATISTICS -->
-
-    <section class="stats-grid">
-
-      <div class="stat-card">
-
-        <span>ARTICLES</span>
-
-        <strong id="articleCount">
-          0
-        </strong>
-
-        <small>
-          Published
-        </small>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <span>TECHNOLOGY</span>
-
-        <strong id="technologyCount">
-          0
-        </strong>
-
-        <small>
-          Technology stories
-        </small>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <span>PICTURES</span>
-
-        <strong id="pictureCount">
-          0
-        </strong>
-
-        <small>
-          Article images
-        </small>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <span>STATUS</span>
-
-        <strong>
-          LIVE
-        </strong>
-
-        <small>
-          Website
-        </small>
-
-      </div>
-
-    </section>
-
-
-    <!-- ARTICLE EDITOR -->
-
-    <section
-      id="articleEditor"
-      class="editor-card"
-    >
-
-      <div class="editor-heading">
-
-        <div>
-
-          <span class="eyebrow">
-            OINANCE NEWS
-          </span>
-
-          <h2>
-            Create Article
-          </h2>
-
-        </div>
-
-        <button
-          id="cancelButton"
-          class="cancel-button"
-        >
-          Cancel
-        </button>
-
-      </div>
-
-
-      <form id="articleForm">
-
-
-        <!-- TITLE -->
+      <form id="loginForm">
 
         <div class="form-group">
 
-          <label for="articleTitle">
-            HEADLINE
+          <label for="loginEmail">
+            EMAIL
           </label>
 
           <input
-            type="text"
-            id="articleTitle"
-            placeholder="Enter article headline"
+            type="email"
+            id="loginEmail"
+            placeholder="Enter your email"
             required
           >
 
         </div>
 
-
-        <!-- CATEGORY -->
-
         <div class="form-group">
 
-          <label for="articleCategory">
-            CATEGORY
-          </label>
-
-          <select id="articleCategory">
-
-            <option value="Technology">
-              Technology
-            </option>
-
-            <option value="AI">
-              AI
-            </option>
-
-            <option value="Blockchain">
-              Blockchain
-            </option>
-
-            <option value="Business">
-              Business
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- AUTHOR -->
-
-        <div class="form-group">
-
-          <label for="articleAuthor">
-            AUTHOR
+          <label for="loginPassword">
+            PASSWORD
           </label>
 
           <input
-            type="text"
-            id="articleAuthor"
-            value="OINANCE Editorial"
+            type="password"
+            id="loginPassword"
+            placeholder="Enter your password"
+            required
           >
 
         </div>
-
-
-        <!-- IMAGE -->
-
-        <div class="form-group">
-
-  <label for="articleImage">
-    ARTICLE PICTURE
-  </label>
-
-  <input
-    type="file"
-    id="articleImage"
-    accept="image/*"
-  >
-
-  <small>
-    Choose a picture from your phone.
-  </small>
-
-  <div id="imagePreview" class="image-preview"></div>
-
-</div>
-
-
-        <!-- STORY -->
-
-        <div class="form-group">
-
-          <label for="articleStory">
-            ARTICLE
-          </label>
-
-          <textarea
-            id="articleStory"
-            rows="12"
-            placeholder="Write your complete article here..."
-            required
-          ></textarea>
-
-        </div>
-
 
         <button
           type="submit"
-          class="publish-button"
+          class="login-button"
         >
-          Publish Article
+          Sign In
         </button>
 
       </form>
 
-    </section>
+      <div
+        id="loginMessage"
+        class="login-message"
+      ></div>
+
+    </div>
+
+  </div>
 
 
-    <!-- ARTICLES -->
+  <!-- =========================
+       DASHBOARD
+  ========================== -->
 
-    <section class="articles-section">
+  <div id="dashboardApp">
 
-      <div class="section-heading">
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+      <a
+        href="index.html"
+        class="dashboard-brand"
+      >
+
+        <img
+          src="file_000000001bdc81f496a425cbbdef65a7.png"
+          alt="OINANCE Logo"
+        >
+
+        <div>
+
+          <strong>OINANCE</strong>
+
+          <span>
+            TECHNOLOGY
+          </span>
+
+        </div>
+
+      </a>
+
+
+      <a
+        href="index.html"
+        class="website-link"
+      >
+        ← View Website
+      </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-container">
+
+      <!-- INTRO -->
+
+      <section class="dashboard-intro">
 
         <div>
 
           <span class="eyebrow">
-            CONTENT
+            OINANCE TECHNOLOGY
           </span>
 
-          <h2>
-            Published Articles
-          </h2>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="articlesList"
-        class="articles-list"
-      >
-
-        <div class="empty-state">
-
-          <strong>
-            No articles yet
-          </strong>
+          <h1>
+            Dashboard
+          </h1>
 
           <p>
-            Your published OINANCE News
-            articles will appear here.
+            Manage your OINANCE Technology
+            website and publish news articles.
           </p>
 
         </div>
 
-      </div>
 
-    </section>
+        <button
+          id="newArticleButton"
+          class="primary-button"
+        >
+          + New Article
+        </button>
 
-  </main>
+      </section>
 
 
-  <div
-    id="dashboardMessage"
-    class="dashboard-message"
-  ></div>
+      <!-- STATISTICS -->
 
+      <section class="stats-grid">
+
+        <div class="stat-card">
+
+          <span>
+            ARTICLES
+          </span>
+
+          <strong id="articleCount">
+            0
+          </strong>
+
+          <small>
+            Published
+          </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            TECHNOLOGY
+          </span>
+
+          <strong id="technologyCount">
+            0
+          </strong>
+
+          <small>
+            Technology stories
+          </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            PICTURES
+          </span>
+
+          <strong id="pictureCount">
+            0
+          </strong>
+
+          <small>
+            Article images
+          </small>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            STATUS
+          </span>
+
+          <strong>
+            LIVE
+          </strong>
+
+          <small>
+            Website
+          </small>
+
+        </div>
+
+      </section>
+
+
+      <!-- ARTICLE EDITOR -->
+
+      <section
+        id="articleEditor"
+        class="editor-card"
+      >
+
+        <div class="editor-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              OINANCE NEWS
+            </span>
+
+            <h2>
+              Create Article
+            </h2>
+
+          </div>
+
+
+          <button
+            id="cancelButton"
+            class="cancel-button"
+            type="button"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+
+        <form id="articleForm">
+
+          <!-- HEADLINE -->
+
+          <div class="form-group">
+
+            <label for="articleTitle">
+              HEADLINE
+            </label>
+
+            <input
+              type="text"
+              id="articleTitle"
+              placeholder="Enter article headline"
+              required
+            >
+
+          </div>
+
+
+          <!-- CATEGORY -->
+
+          <div class="form-group">
+
+            <label for="articleCategory">
+              CATEGORY
+            </label>
+
+            <select
+              id="articleCategory"
+            >
+
+              <option value="Technology">
+                Technology
+              </option>
+
+              <option value="AI">
+                AI
+              </option>
+
+              <option value="Blockchain">
+                Blockchain
+              </option>
+
+              <option value="Business">
+                Business
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- AUTHOR -->
+
+          <div class="form-group">
+
+            <label for="articleAuthor">
+              AUTHOR
+            </label>
+
+            <input
+              type="text"
+              id="articleAuthor"
+              value="OINANCE Editorial"
+            >
+
+          </div>
+
+
+          <!-- PICTURE -->
+
+          <div class="form-group">
+
+            <label for="articleImage">
+              ARTICLE PICTURE
+            </label>
+
+            <input
+              type="file"
+              id="articleImage"
+              accept="image/*"
+            >
+
+            <small>
+              Choose a picture from your phone.
+            </small>
+
+            <div
+              id="imagePreview"
+              class="image-preview"
+            ></div>
+
+          </div>
+
+
+          <!-- ARTICLE -->
+
+          <div class="form-group">
+
+            <label for="articleStory">
+              ARTICLE
+            </label>
+
+            <textarea
+              id="articleStory"
+              rows="12"
+              placeholder="Write your complete article here..."
+              required
+            ></textarea>
+
+          </div>
+
+
+          <!-- PUBLISH -->
+
+          <button
+            type="submit"
+            class="publish-button"
+          >
+            Publish Article
+          </button>
+
+        </form>
+
+      </section>
+
+
+      <!-- ARTICLES -->
+
+      <section class="articles-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              CONTENT
+            </span>
+
+            <h2>
+              Published Articles
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="articlesList"
+          class="articles-list"
+        >
+
+          <div class="empty-state">
+
+            <strong>
+              No articles yet
+            </strong>
+
+            <p>
+              Your published OINANCE News
+              articles will appear here.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- MESSAGE -->
+
+    <div
+      id="dashboardMessage"
+      class="dashboard-message"
+    ></div>
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script src="dashboard.js"></script>
 
 </body>
 
-  <!-- LOGIN SCREEN -->
-
-<div id="loginScreen" class="login-screen">
-
-  <div class="login-card">
-
-    <img
-      src="file_000000001bdc81f496a425cbbdef65a7.png"
-      alt="OINANCE Logo"
-      class="login-logo"
-    >
-
-    <span class="eyebrow">
-      OINANCE TECHNOLOGY
-    </span>
-
-    <h1>Dashboard Login</h1>
-
-    <p>
-      Sign in to manage OINANCE news articles.
-    </p>
-
-    <form id="loginForm">
-
-      <div class="form-group">
-
-        <label for="loginEmail">
-          EMAIL
-        </label>
-
-        <input
-          type="email"
-          id="loginEmail"
-          placeholder="Enter your email"
-          required
-        >
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="loginPassword">
-          PASSWORD
-        </label>
-
-        <input
-          type="password"
-          id="loginPassword"
-          placeholder="Enter your password"
-          required
-        >
-
-      </div>
-
-      <button
-        type="submit"
-        class="login-button"
-      >
-        Sign In
-      </button>
-
-    </form>
-
-    <div
-      id="loginMessage"
-      class="login-message"
-    ></div>
-
-  </div>
-
-</div>
-
-  </html>
+            </html>
