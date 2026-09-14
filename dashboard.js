@@ -1,606 +1,536 @@
-/* =========================
+/* =========================================
    OINANCE TECHNOLOGY
-   DASHBOARD
-========================= */
+   DASHBOARD + SUPABASE
+========================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+const SUPABASE_URL =
+  "https://ohvqwdtvtcqchuwethuw.supabase.co";
 
-  const newArticleButton =
-    document.getElementById("newArticleButton");
+const SUPABASE_KEY =
+  "sb_publishable_PRGk5RJCVmUB--1ovLeC0g_qo25F6L3";
 
-  const cancelButton =
-    document.getElementById("cancelButton");
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  const articleEditor =
-    document.getElementById("articleEditor");
 
-  const articleForm =
-    document.getElementById("articleForm");
+document.addEventListener(
+  "DOMContentLoaded",
+  async function () {
 
-  const articlesList =
-    document.getElementById("articlesList");
+    const loginScreen =
+      document.getElementById("loginScreen");
 
-  const articleCount =
-    document.getElementById("articleCount");
+    const dashboardApp =
+      document.getElementById("dashboardApp");
 
-  const technologyCount =
-    document.getElementById("technologyCount");
+    const loginForm =
+      document.getElementById("loginForm");
 
-  const pictureCount =
-    document.getElementById("pictureCount");
+    const loginMessage =
+      document.getElementById("loginMessage");
 
-  const dashboardMessage =
-    document.getElementById("dashboardMessage");
 
-  const articleImage =
-    document.getElementById("articleImage");
+    /* =====================================
+       INITIAL SCREEN
+    ===================================== */
 
-  const imagePreview =
-    document.getElementById("imagePreview");
-
-
-  /* =========================
-     STORAGE
-  ========================== */
-
-  const STORAGE_KEY =
-    "oinanceArticles";
-
-  let articles =
-    JSON.parse(
-      localStorage.getItem(STORAGE_KEY)
-    ) || [];
-
-
-  /* =========================
-     OPEN ARTICLE EDITOR
-  ========================== */
-
-  if (newArticleButton) {
-
-    newArticleButton.addEventListener(
-      "click",
-      function () {
-
-        articleEditor.classList.add("show");
-
-        articleEditor.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
-      }
-    );
-
-  }
-
-
-  /* =========================
-     CLOSE ARTICLE EDITOR
-  ========================== */
-
-  if (cancelButton) {
-
-    cancelButton.addEventListener(
-      "click",
-      function () {
-
-        articleEditor.classList.remove(
-          "show"
-        );
-
-        articleForm.reset();
-
-        clearImagePreview();
-
-        const author =
-          document.getElementById(
-            "articleAuthor"
-          );
-
-        if (author) {
-          author.value =
-            "OINANCE Editorial";
-        }
-
-      }
-    );
-
-  }
-
-
-  /* =========================
-     IMAGE PREVIEW
-  ========================== */
-
-  if (articleImage) {
-
-    articleImage.addEventListener(
-      "change",
-      function () {
-
-        const file =
-          articleImage.files[0];
-
-        clearImagePreview();
-
-
-        if (!file) {
-          return;
-        }
-
-
-        if (!file.type.startsWith("image/")) {
-
-          showMessage(
-            "Please choose an image."
-          );
-
-          articleImage.value = "";
-
-          return;
-        }
-
-
-        const image =
-          document.createElement("img");
-
-
-        image.src =
-          URL.createObjectURL(file);
-
-
-        image.alt =
-          "Article picture preview";
-
-
-        imagePreview.appendChild(
-          image
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================
-     CLEAR IMAGE PREVIEW
-  ========================== */
-
-  function clearImagePreview() {
-
-    if (imagePreview) {
-
-      imagePreview.innerHTML = "";
-
+    if (dashboardApp) {
+      dashboardApp.style.display = "none";
     }
 
-  }
 
+    /* =====================================
+       CHECK LOGIN
+    ===================================== */
 
-  /* =========================
-     PUBLISH ARTICLE
-  ========================== */
-
-  if (articleForm) {
-
-    articleForm.addEventListener(
-      "submit",
-      function (event) {
-
-        event.preventDefault();
-
-
-        const title =
-          document
-            .getElementById("articleTitle")
-            .value
-            .trim();
-
-
-        const category =
-          document
-            .getElementById("articleCategory")
-            .value;
-
-
-        const author =
-          document
-            .getElementById("articleAuthor")
-            .value
-            .trim();
-
-
-        const story =
-          document
-            .getElementById("articleStory")
-            .value
-            .trim();
-
-
-        const imageFile =
-          articleImage &&
-          articleImage.files[0]
-            ? articleImage.files[0]
-            : null;
-
-
-        if (!title || !story) {
-
-          showMessage(
-            "Please enter a headline and article."
-          );
-
-          return;
-
-        }
-
-
-        /*
-          At this stage the image is only
-          stored temporarily in the browser.
-          Supabase Storage will be connected later.
-        */
-
-        const article = {
-
-          id: Date.now(),
-
-          title: title,
-
-          category: category,
-
-          author:
-            author ||
-            "OINANCE Editorial",
-
-          story: story,
-
-          hasImage:
-            !!imageFile,
-
-          date:
-            new Date().toLocaleDateString()
-
-        };
-
-
-        articles.unshift(article);
-
-
-        saveArticles();
-
-
-        articleForm.reset();
-
-
-        clearImagePreview();
-
-
-        const defaultAuthor =
-          document.getElementById(
-            "articleAuthor"
-          );
-
-        if (defaultAuthor) {
-
-          defaultAuthor.value =
-            "OINANCE Editorial";
-
-        }
-
-
-        articleEditor.classList.remove(
-          "show"
-        );
-
-
-        renderDashboard();
-
-
-        showMessage(
-          "✓ Article published successfully."
-        );
-
+    const {
+      data: {
+        session
       }
-    );
-
-  }
+    } = await supabaseClient.auth.getSession();
 
 
-  /* =========================
-     SAVE ARTICLES
-  ========================== */
+    if (session) {
 
-  function saveArticles() {
+      showDashboard();
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(articles)
-    );
+    } else {
 
-  }
-
-
-  /* =========================
-     UPDATE STATISTICS
-  ========================== */
-
-  function updateStatistics() {
-
-    if (articleCount) {
-
-      articleCount.textContent =
-        articles.length;
+      showLogin();
 
     }
 
 
-    if (technologyCount) {
+    /* =====================================
+       LOGIN
+    ===================================== */
 
-      technologyCount.textContent =
-        articles.filter(
-          function (article) {
+    if (loginForm) {
 
-            return (
-              article.category ===
-              "Technology"
-            );
+      loginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+          event.preventDefault();
+
+
+          const email =
+            document
+              .getElementById("loginEmail")
+              .value
+              .trim();
+
+
+          const password =
+            document
+              .getElementById("loginPassword")
+              .value;
+
+
+          loginMessage.textContent =
+            "Signing in...";
+
+
+          const {
+            error
+          } =
+            await supabaseClient.auth.signInWithPassword({
+              email: email,
+              password: password
+            });
+
+
+          if (error) {
+
+            loginMessage.textContent =
+              "Login failed: " +
+              error.message;
+
+            return;
 
           }
-        ).length;
-
-    }
 
 
-    if (pictureCount) {
-
-      pictureCount.textContent =
-        articles.filter(
-          function (article) {
-
-            return article.hasImage;
-
-          }
-        ).length;
-
-    }
-
-  }
+          loginMessage.textContent =
+            "Login successful.";
 
 
-  /* =========================
-     DISPLAY ARTICLES
-  ========================== */
-
-  function renderArticles() {
-
-    if (!articlesList) {
-      return;
-    }
-
-
-    articlesList.innerHTML = "";
-
-
-    if (articles.length === 0) {
-
-      articlesList.innerHTML = `
-
-        <div class="empty-state">
-
-          <strong>
-            No articles yet
-          </strong>
-
-          <p>
-            Your published OINANCE News
-            articles will appear here.
-          </p>
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    articles.forEach(
-      function (article) {
-
-        const item =
-          document.createElement(
-            "article"
-          );
-
-
-        item.className =
-          "article-item";
-
-
-        const info =
-          document.createElement(
-            "div"
-          );
-
-
-        info.className =
-          "article-info";
-
-
-        const title =
-          document.createElement(
-            "h3"
-          );
-
-
-        title.textContent =
-          article.title;
-
-
-        const meta =
-          document.createElement(
-            "p"
-          );
-
-
-        meta.textContent =
-          article.category +
-          " · " +
-          article.author +
-          " · " +
-          article.date;
-
-
-        if (article.hasImage) {
-
-          meta.textContent +=
-            " · 🖼️ Picture";
+          showDashboard();
 
         }
+      );
+
+    }
 
 
-        info.appendChild(title);
+    /* =====================================
+       SHOW LOGIN
+    ===================================== */
 
-        info.appendChild(meta);
+    function showLogin() {
 
+      if (loginScreen) {
+        loginScreen.style.display = "flex";
+      }
 
-        const deleteButton =
-          document.createElement(
-            "button"
-          );
+      if (dashboardApp) {
+        dashboardApp.style.display = "none";
+      }
 
-
-        deleteButton.className =
-          "delete-button";
-
-
-        deleteButton.textContent =
-          "DELETE";
+    }
 
 
-        deleteButton.addEventListener(
-          "click",
+    /* =====================================
+       SHOW DASHBOARD
+    ===================================== */
+
+    function showDashboard() {
+
+      if (loginScreen) {
+        loginScreen.style.display = "none";
+      }
+
+      if (dashboardApp) {
+        dashboardApp.style.display = "block";
+      }
+
+      startDashboard();
+
+    }
+
+
+    /* =====================================
+       DASHBOARD
+    ===================================== */
+
+    function startDashboard() {
+
+      const newArticleButton =
+        document.getElementById(
+          "newArticleButton"
+        );
+
+      const cancelButton =
+        document.getElementById(
+          "cancelButton"
+        );
+
+      const articleEditor =
+        document.getElementById(
+          "articleEditor"
+        );
+
+      const articleForm =
+        document.getElementById(
+          "articleForm"
+        );
+
+      const articleImage =
+        document.getElementById(
+          "articleImage"
+        );
+
+      const imagePreview =
+        document.getElementById(
+          "imagePreview"
+        );
+
+
+      /* =================================
+         OPEN ARTICLE EDITOR
+      ================================= */
+
+      if (newArticleButton) {
+
+        newArticleButton.onclick =
           function () {
 
-            deleteArticle(
-              article.id
+            articleEditor.classList.add(
+              "show"
             );
 
-          }
-        );
+            articleEditor.scrollIntoView({
+              behavior: "smooth"
+            });
 
-
-        item.appendChild(info);
-
-        item.appendChild(
-          deleteButton
-        );
-
-
-        articlesList.appendChild(
-          item
-        );
+          };
 
       }
-    );
-
-  }
 
 
-  /* =========================
-     DELETE ARTICLE
-  ========================== */
+      /* =================================
+         CANCEL
+      ================================= */
 
-  function deleteArticle(id) {
+      if (cancelButton) {
 
-    const confirmed =
-      confirm(
-        "Delete this OINANCE article?"
-      );
+        cancelButton.onclick =
+          function () {
+
+            articleEditor.classList.remove(
+              "show"
+            );
+
+            articleForm.reset();
+
+            if (imagePreview) {
+              imagePreview.innerHTML = "";
+            }
+
+          };
+
+      }
 
 
-    if (!confirmed) {
-      return;
+      /* =================================
+         IMAGE PREVIEW
+      ================================= */
+
+      if (articleImage) {
+
+        articleImage.onchange =
+          function () {
+
+            const file =
+              articleImage.files[0];
+
+
+            if (!file) {
+
+              imagePreview.innerHTML = "";
+
+              return;
+
+            }
+
+
+            if (
+              !file.type.startsWith(
+                "image/"
+              )
+            ) {
+
+              alert(
+                "Please choose an image."
+              );
+
+              articleImage.value = "";
+
+              return;
+
+            }
+
+
+            imagePreview.innerHTML = "";
+
+
+            const image =
+              document.createElement(
+                "img"
+              );
+
+
+            image.src =
+              URL.createObjectURL(
+                file
+              );
+
+
+            image.alt =
+              "Article picture preview";
+
+
+            imagePreview.appendChild(
+              image
+            );
+
+          };
+
+      }
+
+
+      /* =================================
+         PUBLISH ARTICLE
+      ================================= */
+
+      if (articleForm) {
+
+        articleForm.onsubmit =
+          async function (event) {
+
+            event.preventDefault();
+
+
+            const {
+              data: {
+                session
+              }
+            } =
+              await supabaseClient.auth.getSession();
+
+
+            if (!session) {
+
+              alert(
+                "Please sign in first."
+              );
+
+              showLogin();
+
+              return;
+
+            }
+
+
+            const title =
+              document
+                .getElementById(
+                  "articleTitle"
+                )
+                .value
+                .trim();
+
+
+            const category =
+              document
+                .getElementById(
+                  "articleCategory"
+                )
+                .value;
+
+
+            const author =
+              document
+                .getElementById(
+                  "articleAuthor"
+                )
+                .value
+                .trim();
+
+
+            const story =
+              document
+                .getElementById(
+                  "articleStory"
+                )
+                .value
+                .trim();
+
+
+            const file =
+              articleImage.files[0];
+
+
+            if (!title || !story) {
+
+              alert(
+                "Please enter a headline and article."
+              );
+
+              return;
+
+            }
+
+
+            let imageUrl = null;
+
+
+            /* =============================
+               UPLOAD PICTURE
+            ============================== */
+
+            if (file) {
+
+              const fileExtension =
+                file.name
+                  .split(".")
+                  .pop();
+
+
+              const fileName =
+                Date.now() +
+                "-" +
+                Math.random()
+                  .toString(36)
+                  .substring(2) +
+                "." +
+                fileExtension;
+
+
+              const filePath =
+                fileName;
+
+
+              const {
+                error:
+                uploadError
+              } =
+                await supabaseClient.storage
+                  .from("article-images")
+                  .upload(
+                    filePath,
+                    file
+                  );
+
+
+              if (uploadError) {
+
+                alert(
+                  "Picture upload failed: " +
+                  uploadError.message
+                );
+
+                return;
+
+              }
+
+
+              const {
+                data:
+                publicData
+              } =
+                supabaseClient.storage
+                  .from("article-images")
+                  .getPublicUrl(
+                    filePath
+                  );
+
+
+              imageUrl =
+                publicData.publicUrl;
+
+            }
+
+
+            /* =============================
+               SAVE NEWS ARTICLE
+            ============================== */
+
+            const {
+              error:
+              articleError
+            } =
+              await supabaseClient
+                .from("news")
+                .insert({
+
+                  title: title,
+
+                  category: category,
+
+                  author:
+                    author ||
+                    "OINANCE Editorial",
+
+                  story: story,
+
+                  image_url:
+                    imageUrl,
+
+                  video_url: "",
+
+                  published: true
+
+                });
+
+
+            if (articleError) {
+
+              alert(
+                "Article could not be published: " +
+                articleError.message
+              );
+
+              return;
+
+            }
+
+
+            alert(
+              "✓ Article published successfully!"
+            );
+
+
+            articleForm.reset();
+
+
+            if (imagePreview) {
+              imagePreview.innerHTML = "";
+            }
+
+
+            articleEditor.classList.remove(
+              "show"
+            );
+
+          };
+
+      }
+
     }
 
-
-    articles =
-      articles.filter(
-        function (article) {
-
-          return article.id !== id;
-
-        }
-      );
-
-
-    saveArticles();
-
-    renderDashboard();
-
-
-    showMessage(
-      "Article deleted."
-    );
-
   }
-
-
-  /* =========================
-     MESSAGE
-  ========================== */
-
-  function showMessage(message) {
-
-    if (!dashboardMessage) {
-      return;
-    }
-
-
-    dashboardMessage.textContent =
-      message;
-
-
-    dashboardMessage.classList.add(
-      "show"
-    );
-
-
-    setTimeout(
-      function () {
-
-        dashboardMessage.classList.remove(
-          "show"
-        );
-
-      },
-      3000
-    );
-
-  }
-
-
-  /* =========================
-     RENDER DASHBOARD
-  ========================== */
-
-  function renderDashboard() {
-
-    updateStatistics();
-
-    renderArticles();
-
-  }
-
-
-  /* =========================
-     START
-  ========================== */
-
-  renderDashboard();
-
-});
+);
