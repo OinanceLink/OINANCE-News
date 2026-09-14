@@ -1,6 +1,6 @@
 /* =========================
    OINANCE TECHNOLOGY
-   DASHBOARD JAVASCRIPT
+   DASHBOARD
 ========================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -32,12 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const dashboardMessage =
     document.getElementById("dashboardMessage");
 
+  const articleImage =
+    document.getElementById("articleImage");
+
+  const imagePreview =
+    document.getElementById("imagePreview");
+
 
   /* =========================
      STORAGE
   ========================== */
 
-  const STORAGE_KEY = "oinanceArticles";
+  const STORAGE_KEY =
+    "oinanceArticles";
 
   let articles =
     JSON.parse(
@@ -46,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     OPEN EDITOR
+     OPEN ARTICLE EDITOR
   ========================== */
 
   if (newArticleButton) {
@@ -57,9 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         articleEditor.classList.add("show");
 
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
+        articleEditor.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
         });
 
       }
@@ -69,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     CLOSE EDITOR
+     CLOSE ARTICLE EDITOR
   ========================== */
 
   if (cancelButton) {
@@ -78,16 +85,96 @@ document.addEventListener("DOMContentLoaded", function () {
       "click",
       function () {
 
-        articleEditor.classList.remove("show");
+        articleEditor.classList.remove(
+          "show"
+        );
 
         articleForm.reset();
 
-        document.getElementById(
-          "articleAuthor"
-        ).value = "OINANCE Editorial";
+        clearImagePreview();
+
+        const author =
+          document.getElementById(
+            "articleAuthor"
+          );
+
+        if (author) {
+          author.value =
+            "OINANCE Editorial";
+        }
 
       }
     );
+
+  }
+
+
+  /* =========================
+     IMAGE PREVIEW
+  ========================== */
+
+  if (articleImage) {
+
+    articleImage.addEventListener(
+      "change",
+      function () {
+
+        const file =
+          articleImage.files[0];
+
+        clearImagePreview();
+
+
+        if (!file) {
+          return;
+        }
+
+
+        if (!file.type.startsWith("image/")) {
+
+          showMessage(
+            "Please choose an image."
+          );
+
+          articleImage.value = "";
+
+          return;
+        }
+
+
+        const image =
+          document.createElement("img");
+
+
+        image.src =
+          URL.createObjectURL(file);
+
+
+        image.alt =
+          "Article picture preview";
+
+
+        imagePreview.appendChild(
+          image
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================
+     CLEAR IMAGE PREVIEW
+  ========================== */
+
+  function clearImagePreview() {
+
+    if (imagePreview) {
+
+      imagePreview.innerHTML = "";
+
+    }
 
   }
 
@@ -125,18 +212,18 @@ document.addEventListener("DOMContentLoaded", function () {
             .trim();
 
 
-        const image =
-          document
-            .getElementById("articleImage")
-            .value
-            .trim();
-
-
         const story =
           document
             .getElementById("articleStory")
             .value
             .trim();
+
+
+        const imageFile =
+          articleImage &&
+          articleImage.files[0]
+            ? articleImage.files[0]
+            : null;
 
 
         if (!title || !story) {
@@ -150,6 +237,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /*
+          At this stage the image is only
+          stored temporarily in the browser.
+          Supabase Storage will be connected later.
+        */
+
         const article = {
 
           id: Date.now(),
@@ -159,11 +252,13 @@ document.addEventListener("DOMContentLoaded", function () {
           category: category,
 
           author:
-            author || "OINANCE Editorial",
-
-          image: image,
+            author ||
+            "OINANCE Editorial",
 
           story: story,
+
+          hasImage:
+            !!imageFile,
 
           date:
             new Date().toLocaleDateString()
@@ -180,10 +275,20 @@ document.addEventListener("DOMContentLoaded", function () {
         articleForm.reset();
 
 
-        document.getElementById(
-          "articleAuthor"
-        ).value =
-          "OINANCE Editorial";
+        clearImagePreview();
+
+
+        const defaultAuthor =
+          document.getElementById(
+            "articleAuthor"
+          );
+
+        if (defaultAuthor) {
+
+          defaultAuthor.value =
+            "OINANCE Editorial";
+
+        }
 
 
         articleEditor.classList.remove(
@@ -191,12 +296,12 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+        renderDashboard();
+
+
         showMessage(
           "✓ Article published successfully."
         );
-
-
-        renderDashboard();
 
       }
     );
@@ -219,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     DASHBOARD STATISTICS
+     UPDATE STATISTICS
   ========================== */
 
   function updateStatistics() {
@@ -255,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
         articles.filter(
           function (article) {
 
-            return article.image;
+            return article.hasImage;
 
           }
         ).length;
@@ -307,7 +412,9 @@ document.addEventListener("DOMContentLoaded", function () {
       function (article) {
 
         const item =
-          document.createElement("article");
+          document.createElement(
+            "article"
+          );
 
 
         item.className =
@@ -315,7 +422,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const info =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         info.className =
@@ -323,7 +432,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const title =
-          document.createElement("h3");
+          document.createElement(
+            "h3"
+          );
 
 
         title.textContent =
@@ -331,7 +442,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         const meta =
-          document.createElement("p");
+          document.createElement(
+            "p"
+          );
 
 
         meta.textContent =
@@ -342,13 +455,23 @@ document.addEventListener("DOMContentLoaded", function () {
           article.date;
 
 
+        if (article.hasImage) {
+
+          meta.textContent +=
+            " · 🖼️ Picture";
+
+        }
+
+
         info.appendChild(title);
 
         info.appendChild(meta);
 
 
         const deleteButton =
-          document.createElement("button");
+          document.createElement(
+            "button"
+          );
 
 
         deleteButton.className =
@@ -363,7 +486,9 @@ document.addEventListener("DOMContentLoaded", function () {
           "click",
           function () {
 
-            deleteArticle(article.id);
+            deleteArticle(
+              article.id
+            );
 
           }
         );
@@ -371,10 +496,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         item.appendChild(info);
 
-        item.appendChild(deleteButton);
+        item.appendChild(
+          deleteButton
+        );
 
 
-        articlesList.appendChild(item);
+        articlesList.appendChild(
+          item
+        );
 
       }
     );
@@ -412,6 +541,7 @@ document.addEventListener("DOMContentLoaded", function () {
     saveArticles();
 
     renderDashboard();
+
 
     showMessage(
       "Article deleted."
@@ -455,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     RENDER EVERYTHING
+     RENDER DASHBOARD
   ========================== */
 
   function renderDashboard() {
