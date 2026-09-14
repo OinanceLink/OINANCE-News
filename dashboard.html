@@ -250,21 +250,23 @@
 
         <div class="form-group">
 
-          <label for="articleImage">
-            ARTICLE PICTURE
-          </label>
+  <label for="articleImage">
+    ARTICLE PICTURE
+  </label>
 
-          <input
-            type="url"
-            id="articleImage"
-            placeholder="Paste your picture URL"
-          >
+  <input
+    type="file"
+    id="articleImage"
+    accept="image/*"
+  >
 
-          <small>
-            Picture upload will be connected later.
-          </small>
+  <small>
+    Choose a picture from your phone.
+  </small>
 
-        </div>
+  <div id="imagePreview" class="image-preview"></div>
+
+</div>
 
 
         <!-- STORY -->
