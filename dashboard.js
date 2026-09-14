@@ -490,8 +490,6 @@ document.addEventListener(
                   image_url:
                     imageUrl,
 
-                  video_url: "",
-
                   published: true
 
                 });
