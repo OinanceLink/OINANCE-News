@@ -15,7 +15,6 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
-
 document.addEventListener(
   "DOMContentLoaded",
   async function () {
@@ -32,41 +31,20 @@ document.addEventListener(
     const loginMessage =
       document.getElementById("loginMessage");
 
-
-    /* =====================================
-       INITIAL SCREEN
-    ===================================== */
-
     if (dashboardApp) {
       dashboardApp.style.display = "none";
     }
 
-
-    /* =====================================
-       CHECK LOGIN
-    ===================================== */
-
     const {
-      data: {
-        session
-      }
-    } = await supabaseClient.auth.getSession();
-
+      data: { session }
+    } =
+      await supabaseClient.auth.getSession();
 
     if (session) {
-
       showDashboard();
-
     } else {
-
       showLogin();
-
     }
-
-
-    /* =====================================
-       LOGIN
-    ===================================== */
 
     if (loginForm) {
 
@@ -76,32 +54,25 @@ document.addEventListener(
 
           event.preventDefault();
 
-
           const email =
             document
               .getElementById("loginEmail")
               .value
               .trim();
 
-
           const password =
             document
               .getElementById("loginPassword")
               .value;
 
-
           loginMessage.textContent =
             "Signing in...";
 
-
-          const {
-            error
-          } =
+          const { error } =
             await supabaseClient.auth.signInWithPassword({
               email: email,
               password: password
             });
-
 
           if (error) {
 
@@ -110,13 +81,10 @@ document.addEventListener(
               error.message;
 
             return;
-
           }
-
 
           loginMessage.textContent =
             "Login successful.";
-
 
           showDashboard();
 
@@ -124,11 +92,6 @@ document.addEventListener(
       );
 
     }
-
-
-    /* =====================================
-       SHOW LOGIN
-    ===================================== */
 
     function showLogin() {
 
@@ -141,11 +104,6 @@ document.addEventListener(
       }
 
     }
-
-
-    /* =====================================
-       SHOW DASHBOARD
-    ===================================== */
 
     function showDashboard() {
 
@@ -160,11 +118,6 @@ document.addEventListener(
       startDashboard();
 
     }
-
-
-    /* =====================================
-       DASHBOARD
-    ===================================== */
 
     function startDashboard() {
 
@@ -198,10 +151,10 @@ document.addEventListener(
           "imagePreview"
         );
 
-
-      /* =================================
-         OPEN ARTICLE EDITOR
-      ================================= */
+      const articlesList =
+        document.getElementById(
+          "articlesList"
+        );
 
       if (newArticleButton) {
 
@@ -219,11 +172,6 @@ document.addEventListener(
           };
 
       }
-
-
-      /* =================================
-         CANCEL
-      ================================= */
 
       if (cancelButton) {
 
@@ -244,11 +192,6 @@ document.addEventListener(
 
       }
 
-
-      /* =================================
-         IMAGE PREVIEW
-      ================================= */
-
       if (articleImage) {
 
         articleImage.onchange =
@@ -257,7 +200,6 @@ document.addEventListener(
             const file =
               articleImage.files[0];
 
-
             if (!file) {
 
               imagePreview.innerHTML = "";
@@ -265,7 +207,6 @@ document.addEventListener(
               return;
 
             }
-
 
             if (
               !file.type.startsWith(
@@ -283,25 +224,20 @@ document.addEventListener(
 
             }
 
-
             imagePreview.innerHTML = "";
-
 
             const image =
               document.createElement(
                 "img"
               );
 
-
             image.src =
               URL.createObjectURL(
                 file
               );
 
-
             image.alt =
               "Article picture preview";
-
 
             imagePreview.appendChild(
               image
@@ -311,11 +247,6 @@ document.addEventListener(
 
       }
 
-
-      /* =================================
-         PUBLISH ARTICLE
-      ================================= */
-
       if (articleForm) {
 
         articleForm.onsubmit =
@@ -323,14 +254,10 @@ document.addEventListener(
 
             event.preventDefault();
 
-
             const {
-              data: {
-                session
-              }
+              data: { session }
             } =
               await supabaseClient.auth.getSession();
-
 
             if (!session) {
 
@@ -344,7 +271,6 @@ document.addEventListener(
 
             }
 
-
             const title =
               document
                 .getElementById(
@@ -353,14 +279,12 @@ document.addEventListener(
                 .value
                 .trim();
 
-
             const category =
               document
                 .getElementById(
                   "articleCategory"
                 )
                 .value;
-
 
             const author =
               document
@@ -370,7 +294,6 @@ document.addEventListener(
                 .value
                 .trim();
 
-
             const story =
               document
                 .getElementById(
@@ -379,10 +302,8 @@ document.addEventListener(
                 .value
                 .trim();
 
-
             const file =
               articleImage.files[0];
-
 
             if (!title || !story) {
 
@@ -394,13 +315,7 @@ document.addEventListener(
 
             }
 
-
             let imageUrl = null;
-
-
-            /* =============================
-               UPLOAD PICTURE
-            ============================== */
 
             if (file) {
 
@@ -408,7 +323,6 @@ document.addEventListener(
                 file.name
                   .split(".")
                   .pop();
-
 
               const fileName =
                 Date.now() +
@@ -419,14 +333,11 @@ document.addEventListener(
                 "." +
                 fileExtension;
 
-
               const filePath =
                 fileName;
 
-
               const {
-                error:
-                uploadError
+                error: uploadError
               } =
                 await supabaseClient.storage
                   .from("article-images")
@@ -434,7 +345,6 @@ document.addEventListener(
                     filePath,
                     file
                   );
-
 
               if (uploadError) {
 
@@ -447,10 +357,8 @@ document.addEventListener(
 
               }
 
-
               const {
-                data:
-                publicData
+                data: publicData
               } =
                 supabaseClient.storage
                   .from("article-images")
@@ -458,20 +366,13 @@ document.addEventListener(
                     filePath
                   );
 
-
               imageUrl =
                 publicData.publicUrl;
 
             }
 
-
-            /* =============================
-               SAVE NEWS ARTICLE
-            ============================== */
-
             const {
-              error:
-              articleError
+              error: articleError
             } =
               await supabaseClient
                 .from("news")
@@ -494,7 +395,6 @@ document.addEventListener(
 
                 });
 
-
             if (articleError) {
 
               alert(
@@ -506,27 +406,237 @@ document.addEventListener(
 
             }
 
-
             alert(
               "✓ Article published successfully!"
             );
 
-
             articleForm.reset();
-
 
             if (imagePreview) {
               imagePreview.innerHTML = "";
             }
 
-
             articleEditor.classList.remove(
               "show"
             );
 
+            loadArticles();
+
           };
 
       }
+
+      loadArticles();
+
+    }
+
+    async function loadArticles() {
+
+      const articlesList =
+        document.getElementById(
+          "articlesList"
+        );
+
+      if (!articlesList) {
+        return;
+      }
+
+      articlesList.innerHTML =
+        "<p>Loading articles...</p>";
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("news")
+          .select(
+            "id, title, category, author, created_at, image_url"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+      if (error) {
+
+        console.error(
+          "Articles loading error:",
+          error
+        );
+
+        articlesList.innerHTML =
+          "<p>Could not load articles.</p>";
+
+        return;
+
+      }
+
+      if (!data || data.length === 0) {
+
+        articlesList.innerHTML =
+          `<div class="empty-state">
+            No published articles yet.
+          </div>`;
+
+        return;
+
+      }
+
+      articlesList.innerHTML = "";
+
+      data.forEach(
+        function (article) {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+          item.className =
+            "dashboard-article";
+
+          item.innerHTML = `
+
+            <div class="dashboard-article-info">
+
+              ${
+                article.image_url
+                  ? `
+                    <img
+                      src="${escapeHTML(
+                        article.image_url
+                      )}"
+                      alt=""
+                      class="dashboard-article-image"
+                    >
+                  `
+                  : ""
+              }
+
+              <div>
+
+                <h3>
+                  ${escapeHTML(
+                    article.title
+                  )}
+                </h3>
+
+                <p>
+                  ${escapeHTML(
+                    article.category ||
+                    "OINANCE NEWS"
+                  )}
+                </p>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="delete-article-button"
+              data-id="${article.id}"
+            >
+              Delete
+            </button>
+
+          `;
+
+          articlesList.appendChild(
+            item
+          );
+
+        }
+      );
+
+      const deleteButtons =
+        articlesList.querySelectorAll(
+          ".delete-article-button"
+        );
+
+      deleteButtons.forEach(
+        function (button) {
+
+          button.addEventListener(
+            "click",
+            function () {
+
+              deleteArticle(
+                button.dataset.id
+              );
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+    async function deleteArticle(
+      articleId
+    ) {
+
+      const confirmed =
+        confirm(
+          "Are you sure you want to delete this article?"
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("news")
+          .delete()
+          .eq(
+            "id",
+            articleId
+          );
+
+      if (error) {
+
+        alert(
+          "Article could not be deleted: " +
+          error.message
+        );
+
+        console.error(
+          "Delete error:",
+          error
+        );
+
+        return;
+
+      }
+
+      alert(
+        "✓ Article deleted successfully."
+      );
+
+      loadArticles();
+
+    }
+
+    function escapeHTML(
+      value
+    ) {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.textContent =
+        value ?? "";
+
+      return div.innerHTML;
 
     }
 
