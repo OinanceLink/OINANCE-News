@@ -171,3 +171,25 @@ body {
     margin-top: 5px;
   }
 }
+
+/* FORCE SMALL ARTICLE IMAGES */
+
+.articles-list .dashboard-article img.dashboard-article-image {
+  width: 100px !important;
+  height: 70px !important;
+  max-width: 100px !important;
+  max-height: 70px !important;
+  object-fit: cover !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+}
+
+.articles-list .dashboard-article {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+}
+
+.articles-list .dashboard-article-info {
+  flex: 1 !important;
+}
