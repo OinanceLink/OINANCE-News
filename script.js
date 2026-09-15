@@ -21,12 +21,29 @@ const supabaseClient =
   );
 
 
-document.addEventListener("DOMContentLoaded", function () {
+/* =========================
+   PAGE START
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    setupMobileMenu();
+
+    updateYear();
+
+    loadNews();
+
+  }
+);
 
 
-  /* =========================
-     MOBILE MENU
-  ========================= */
+/* =========================
+   MOBILE MENU
+========================= */
+
+function setupMobileMenu() {
 
   const menuButton =
     document.getElementById("menuButton");
@@ -35,46 +52,69 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("mobileMenu");
 
 
-  if (menuButton && mobileMenu) {
-
-    menuButton.addEventListener("click", function () {
-
-      mobileMenu.classList.toggle("open");
-
-      if (mobileMenu.classList.contains("open")) {
-        menuButton.textContent = "✕";
-      } else {
-        menuButton.textContent = "☰";
-      }
-
-    });
-
-
-    const mobileLinks =
-      mobileMenu.querySelectorAll("a");
-
-
-    mobileLinks.forEach(function (link) {
-
-      link.addEventListener("click", function () {
-
-        mobileMenu.classList.remove("open");
-
-        menuButton.textContent = "☰";
-
-      });
-
-    });
-
+  if (!menuButton || !mobileMenu) {
+    return;
   }
 
 
-  /* =========================
-     CURRENT YEAR
-  ========================= */
+  menuButton.addEventListener(
+    "click",
+    function () {
+
+      mobileMenu.classList.toggle("open");
+
+      if (
+        mobileMenu.classList.contains("open")
+      ) {
+
+        menuButton.textContent = "✕";
+
+      } else {
+
+        menuButton.textContent = "☰";
+
+      }
+
+    }
+  );
+
+
+  const mobileLinks =
+    mobileMenu.querySelectorAll("a");
+
+
+  mobileLinks.forEach(
+    function (link) {
+
+      link.addEventListener(
+        "click",
+        function () {
+
+          mobileMenu.classList.remove(
+            "open"
+          );
+
+          menuButton.textContent = "☰";
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CURRENT YEAR
+========================= */
+
+function updateYear() {
 
   const year =
-    document.querySelector(".site-footer p");
+    document.querySelector(
+      ".site-footer p"
+    );
 
 
   if (year) {
@@ -86,24 +126,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
-
-  /* =========================
-     LOAD OINANCE NEWS
-  ========================= */
-
-  loadNews();
-
-});
+}
 
 
 /* =========================
-   LOAD NEWS FROM SUPABASE
+   LOAD OINANCE NEWS
 ========================= */
 
 async function loadNews() {
 
   const newsGrid =
-    document.getElementById("newsGrid");
+    document.getElementById(
+      "newsGrid"
+    );
 
 
   if (!newsGrid) {
@@ -113,16 +148,25 @@ async function loadNews() {
 
   try {
 
-    const { data, error } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient
         .from("news")
         .select(
           "id, title, category, author, story, image_url, created_at"
         )
-        .eq("published", true)
-        .order("created_at", {
-          ascending: false
-        });
+        .eq(
+          "published",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
@@ -137,18 +181,26 @@ async function loadNews() {
     }
 
 
-    /* No articles yet */
+    /* =========================
+       NO ARTICLES
+    ========================= */
 
-    if (!data || data.length === 0) {
+    if (
+      !data ||
+      data.length === 0
+    ) {
 
       newsGrid.innerHTML = `
+
         <article class="news-placeholder">
 
           <div class="placeholder-image"></div>
 
           <div class="placeholder-content">
 
-            <span>OINANCE NEWS</span>
+            <span>
+              OINANCE NEWS
+            </span>
 
             <h3>
               OINANCE News is coming soon.
@@ -162,6 +214,7 @@ async function loadNews() {
           </div>
 
         </article>
+
       `;
 
       return;
@@ -176,45 +229,75 @@ async function loadNews() {
     newsGrid.innerHTML = "";
 
 
-    data.forEach(function (article) {
+    data.forEach(
+      function (article) {
 
-      const card =
-        document.createElement("article");
-
-      card.className = "news-card";
-       const card =
-  document.createElement("article");
-
-card.className = "news-card";
-
-card.style.cursor = "pointer";
-
-card.addEventListener("click", function () {
-
-  window.location.href =
-    "article.html?id=" +
-    encodeURIComponent(article.id);
-
-});
+        const card =
+          document.createElement(
+            "article"
+          );
 
 
-      const image =
-        article.image_url
-          ? `
-            <img
-              src="${escapeHTML(article.image_url)}"
-              alt="${escapeHTML(article.title)}"
-              class="news-image"
-            >
-          `
-          : `
-            <div class="placeholder-image"></div>
-          `;
+        card.className =
+          "news-card";
 
 
-      const date =
-        new Date(article.created_at)
-          .toLocaleDateString(
+        card.style.cursor =
+          "pointer";
+
+
+        /* =========================
+           OPEN FULL ARTICLE
+        ========================= */
+
+        card.addEventListener(
+          "click",
+          function () {
+
+            window.location.href =
+              "article.html?id=" +
+              encodeURIComponent(
+                article.id
+              );
+
+          }
+        );
+
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        const image =
+          article.image_url
+
+            ? `
+              <img
+                src="${escapeHTML(
+                  article.image_url
+                )}"
+                alt="${escapeHTML(
+                  article.title
+                )}"
+                class="news-image"
+              >
+            `
+
+            : `
+              <div
+                class="placeholder-image"
+              ></div>
+            `;
+
+
+        /* =========================
+           DATE
+        ========================= */
+
+        const date =
+          new Date(
+            article.created_at
+          ).toLocaleDateString(
             "en-US",
             {
               year: "numeric",
@@ -224,44 +307,83 @@ card.addEventListener("click", function () {
           );
 
 
-      card.innerHTML = `
+        /* =========================
+           ARTICLE CARD
+        ========================= */
 
-        ${image}
+        card.innerHTML = `
 
-        <div class="news-content">
+          ${image}
 
-          <span class="news-category">
-            ${escapeHTML(article.category || "OINANCE NEWS")}
-          </span>
+          <div class="news-content">
 
-          <h3>
-            ${escapeHTML(article.title)}
-          </h3>
+            <span class="news-category">
 
-          <p>
-            ${escapeHTML(article.story)}
-          </p>
+              ${escapeHTML(
+                article.category ||
+                "OINANCE NEWS"
+              )}
 
-          <div class="news-meta">
-
-            <span>
-              ${escapeHTML(article.author || "OINANCE")}
             </span>
 
-            <span>
-              ${date}
-            </span>
+
+            <h3>
+
+              ${escapeHTML(
+                article.title
+              )}
+
+            </h3>
+
+
+            <p>
+
+              ${escapeHTML(
+                article.story
+              )}
+
+            </p>
+
+
+            <div class="news-meta">
+
+              <span>
+
+                ${escapeHTML(
+                  article.author ||
+                  "OINANCE Editorial"
+                )}
+
+              </span>
+
+
+              <span>
+
+                ${date}
+
+              </span>
+
+            </div>
+
+
+            <div class="news-read-more">
+
+              Read Full Article →
+
+            </div>
 
           </div>
 
-        </div>
-
-      `;
+        `;
 
 
-      newsGrid.appendChild(card);
+        newsGrid.appendChild(
+          card
+        );
 
-    });
+      }
+    );
+
 
   } catch (error) {
 
@@ -277,17 +399,20 @@ card.addEventListener("click", function () {
 
 /* =========================
    SECURITY
-   PREVENT HTML INJECTION
 ========================= */
 
 function escapeHTML(value) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   div.textContent =
     value ?? "";
 
+
   return div.innerHTML;
 
-  }
+}
