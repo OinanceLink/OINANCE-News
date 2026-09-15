@@ -477,7 +477,7 @@ if (newsletterForm) {
         );
 
         newsletterMessage.textContent =
-          "Something went wrong. Please try again.";
+  "Error: " + error.message;
 
       }
 
