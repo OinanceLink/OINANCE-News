@@ -17,10 +17,284 @@
 
   <title>OINANCE News</title>
 
+  <!-- Main website CSS -->
   <link
     rel="stylesheet"
     href="style.css"
   >
+
+
+  <!-- =========================
+       ARTICLE PAGE DESIGN
+  ========================== -->
+
+  <style>
+
+    .article-page {
+      width: 100%;
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 80px 28px 120px;
+    }
+
+
+    .article-header {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 45px;
+    }
+
+
+    .article-category {
+      display: inline-block;
+
+      margin-bottom: 18px;
+
+      color: #888888;
+
+      font-size: 11px;
+      font-weight: bold;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+
+    .article-header h1 {
+      margin: 0 0 25px;
+
+      color: #ffffff;
+
+      font-size: clamp(42px, 6vw, 76px);
+
+      line-height: 1.05;
+
+      letter-spacing: -3px;
+    }
+
+
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 20px;
+
+      color: #777777;
+
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       ARTICLE IMAGE
+    ========================== */
+
+    .article-image {
+      display: block;
+
+      width: 100%;
+      max-width: 900px;
+
+      height: 460px;
+
+      margin: 0 auto 55px;
+
+      object-fit: cover;
+
+      border-radius: 18px;
+
+      border: 1px solid #292929;
+
+      background: #111111;
+    }
+
+
+    /* =========================
+       ARTICLE STORY
+    ========================== */
+
+    .article-story {
+      width: 100%;
+      max-width: 780px;
+
+      margin: 0 auto;
+    }
+
+
+    .article-story p {
+      margin: 0 0 28px;
+
+      color: #c7c7c7;
+
+      font-size: 20px;
+
+      line-height: 1.9;
+
+      letter-spacing: 0;
+    }
+
+
+    /* =========================
+       BACK BUTTON
+    ========================== */
+
+    .article-back {
+      width: 100%;
+      max-width: 780px;
+
+      margin: 60px auto 0;
+
+      padding-top: 28px;
+
+      border-top: 1px solid #222222;
+    }
+
+
+    .article-back a {
+      display: inline-block;
+
+      color: #ffffff;
+
+      font-size: 14px;
+
+      font-weight: bold;
+    }
+
+
+    .article-back a:hover {
+      color: #aaaaaa;
+    }
+
+
+    /* =========================
+       LOADING / ERROR
+    ========================== */
+
+    .article-loading,
+    .article-error {
+      width: 100%;
+
+      padding: 100px 20px;
+
+      text-align: center;
+
+      color: #999999;
+
+      font-size: 16px;
+    }
+
+
+    .article-error h1 {
+      margin-bottom: 15px;
+
+      color: #ffffff;
+
+      font-size: 42px;
+    }
+
+
+    .article-error p {
+      margin-bottom: 25px;
+
+      color: #888888;
+
+      font-size: 16px;
+    }
+
+
+    .article-error a {
+      color: #ffffff;
+
+      font-weight: bold;
+    }
+
+
+    /* =========================
+       PHONE
+    ========================== */
+
+    @media (max-width: 600px) {
+
+      .article-page {
+        padding: 50px 18px 80px;
+      }
+
+
+      .article-header {
+        margin-bottom: 30px;
+      }
+
+
+      .article-category {
+        margin-bottom: 14px;
+
+        font-size: 9px;
+
+        letter-spacing: 2px;
+      }
+
+
+      .article-header h1 {
+        margin-bottom: 20px;
+
+        font-size: 40px;
+
+        line-height: 1.08;
+
+        letter-spacing: -2px;
+      }
+
+
+      .article-meta {
+        gap: 10px;
+
+        font-size: 11px;
+      }
+
+
+      /* Smaller picture on phone */
+
+      .article-image {
+        width: 100%;
+
+        height: 260px;
+
+        margin-bottom: 35px;
+
+        border-radius: 14px;
+      }
+
+
+      /* Bigger readable story */
+
+      .article-story {
+        width: 100%;
+      }
+
+
+      .article-story p {
+        margin-bottom: 24px;
+
+        font-size: 18px;
+
+        line-height: 1.85;
+      }
+
+
+      .article-back {
+        margin-top: 45px;
+
+        padding-top: 22px;
+      }
+
+
+      .article-back a {
+        font-size: 13px;
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -36,6 +310,7 @@
 
     <div class="header-inner">
 
+
       <a
         href="index.html"
         class="brand"
@@ -47,11 +322,16 @@
           class="brand-logo"
         >
 
+
         <div class="brand-text">
 
-          <strong>OINANCE</strong>
+          <strong>
+            OINANCE
+          </strong>
 
-          <span>TECHNOLOGY</span>
+          <span>
+            TECHNOLOGY
+          </span>
 
         </div>
 
@@ -72,7 +352,7 @@
 
 
   <!-- =========================
-       ARTICLE
+       FULL ARTICLE
   ========================== -->
 
   <main class="article-page">
@@ -113,16 +393,22 @@
 
 
 
-  <!-- SUPABASE -->
+  <!-- =========================
+       SUPABASE
+  ========================== -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+  </script>
 
 
-  <!-- ARTICLE JAVASCRIPT -->
+  <!-- =========================
+       ARTICLE JAVASCRIPT
+  ========================== -->
 
   <script src="article.js"></script>
 
 
 </body>
 
-  </html>
+</html>
