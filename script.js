@@ -452,13 +452,13 @@ if (newsletterForm) {
       try {
 
         const { error } =
-          await supabase
-            .from("newsletter_subscribers")
-            .insert([
-              {
-                email: email
-              }
-            ]);
+  await supabaseClient
+    .from("newsletter_subscribers")
+    .insert([
+      {
+        email: email
+      }
+    ]);
 
         if (error) {
           throw error;
