@@ -9,26 +9,21 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_PRGk5RJCVmUB--1ovLeC0g_qo25F6L3";
 
+const SHARE_FUNCTION_URL =
+  "https://ohvqwdtvtcqchuwethuw.supabase.co/functions/v1/article-share";
+
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
-
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-
     loadArticle();
-
   }
 );
-
-
-/* =========================
-   LOAD ARTICLE
-========================= */
 
 async function loadArticle() {
 
@@ -45,18 +40,13 @@ async function loadArticle() {
   const articleId =
     params.get("id");
 
-
   if (!articleId) {
-
     showError(
       container,
       "No article was selected."
     );
-
     return;
-
   }
-
 
   const {
     data,
@@ -71,7 +61,6 @@ async function loadArticle() {
       .eq("published", true)
       .single();
 
-
   if (error || !data) {
 
     console.error(
@@ -85,9 +74,7 @@ async function loadArticle() {
     );
 
     return;
-
   }
-
 
   const date =
     new Date(
@@ -101,7 +88,6 @@ async function loadArticle() {
       }
     );
 
-
   const image =
     data.image_url
       ? `
@@ -113,7 +99,6 @@ async function loadArticle() {
       `
       : "";
 
-
   const paragraphs =
     escapeHTML(data.story)
       .split(/\n+/)
@@ -124,70 +109,41 @@ async function loadArticle() {
       )
       .join("");
 
-
-  /* =========================
-     ARTICLE PAGE
-  ========================= */
-
   container.innerHTML = `
 
     <div class="article-header">
 
       <span class="article-category">
-
         ${escapeHTML(
-          data.category ||
-          "OINANCE NEWS"
+          data.category || "OINANCE NEWS"
         )}
-
       </span>
 
-
       <h1>
-
-        ${escapeHTML(
-          data.title
-        )}
-
+        ${escapeHTML(data.title)}
       </h1>
-
 
       <div class="article-meta">
 
         <span>
-
           By ${escapeHTML(
-            data.author ||
-            "OINANCE Editorial"
+            data.author || "OINANCE Editorial"
           )}
-
         </span>
 
-
         <span>
-
           ${date}
-
         </span>
 
       </div>
 
     </div>
 
-
     ${image}
 
-
     <div class="article-story">
-
       ${paragraphs}
-
     </div>
-
-
-    <!-- =========================
-         SHARE ON X
-    ========================== -->
 
     <div class="article-share">
 
@@ -196,81 +152,61 @@ async function loadArticle() {
         class="x-share-button"
         id="xShareButton"
       >
-
         𝕏 Share on X
-
       </button>
 
     </div>
 
-
     <div class="article-back">
 
       <a href="index.html#news">
-
         ← Back to OINANCE News
-
       </a>
 
     </div>
 
   `;
 
-
-  /* =========================
-     X SHARE BUTTON
-  ========================= */
-
-  const xButton =
+  const shareButton =
     document.getElementById(
       "xShareButton"
     );
 
+  shareButton.addEventListener(
+    "click",
+    function () {
 
-  if (xButton) {
-
-    xButton.addEventListener(
-      "click",
-      function () {
-
-        const articleUrl =
-          window.location.href;
-
-
-        const shareText =
-          data.title +
-          " — OINANCE Technology";
-
-
-        const xUrl =
-          "https://twitter.com/intent/tweet" +
-          "?text=" +
-          encodeURIComponent(
-            shareText
-          ) +
-          "&url=" +
-          encodeURIComponent(
-            articleUrl
-          );
-
-
-        window.open(
-          xUrl,
-          "_blank",
-          "noopener,noreferrer"
+      const previewUrl =
+        SHARE_FUNCTION_URL +
+        "?id=" +
+        encodeURIComponent(
+          data.id
         );
 
-      }
-    );
+      const shareText =
+        data.title +
+        " — OINANCE Technology";
 
-  }
+      const xUrl =
+        "https://twitter.com/intent/tweet" +
+        "?text=" +
+        encodeURIComponent(
+          shareText
+        ) +
+        "&url=" +
+        encodeURIComponent(
+          previewUrl
+        );
 
+      window.open(
+        xUrl,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    }
+  );
 }
-
-
-/* =========================
-   ERROR
-========================= */
 
 function showError(
   container,
@@ -290,21 +226,13 @@ function showError(
       </p>
 
       <a href="index.html#news">
-
         ← Back to OINANCE News
-
       </a>
 
     </div>
 
   `;
-
 }
-
-
-/* =========================
-   SECURITY
-========================= */
 
 function escapeHTML(value) {
 
@@ -313,11 +241,8 @@ function escapeHTML(value) {
       "div"
     );
 
-
   div.textContent =
     value ?? "";
 
-
   return div.innerHTML;
-
 }
