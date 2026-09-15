@@ -48,17 +48,10 @@ async function loadArticle() {
 
   if (!articleId) {
 
-    container.innerHTML = `
-      <div class="article-error">
-        <h1>Article not found</h1>
-        <p>
-          No article was selected.
-        </p>
-        <a href="index.html#news">
-          ← Back to OINANCE News
-        </a>
-      </div>
-    `;
+    showError(
+      container,
+      "No article was selected."
+    );
 
     return;
 
@@ -86,18 +79,10 @@ async function loadArticle() {
       error
     );
 
-    container.innerHTML = `
-      <div class="article-error">
-        <h1>Article not found</h1>
-        <p>
-          This article may have been removed
-          or is no longer available.
-        </p>
-        <a href="index.html#news">
-          ← Back to OINANCE News
-        </a>
-      </div>
-    `;
+    showError(
+      container,
+      "This article may have been removed or is no longer available."
+    );
 
     return;
 
@@ -140,30 +125,49 @@ async function loadArticle() {
       .join("");
 
 
+  /* =========================
+     ARTICLE PAGE
+  ========================= */
+
   container.innerHTML = `
 
     <div class="article-header">
 
       <span class="article-category">
+
         ${escapeHTML(
-          data.category || "OINANCE NEWS"
+          data.category ||
+          "OINANCE NEWS"
         )}
+
       </span>
 
+
       <h1>
-        ${escapeHTML(data.title)}
+
+        ${escapeHTML(
+          data.title
+        )}
+
       </h1>
+
 
       <div class="article-meta">
 
         <span>
+
           By ${escapeHTML(
-            data.author || "OINANCE Editorial"
+            data.author ||
+            "OINANCE Editorial"
           )}
+
         </span>
 
+
         <span>
+
           ${date}
+
         </span>
 
       </div>
@@ -181,10 +185,114 @@ async function loadArticle() {
     </div>
 
 
+    <!-- =========================
+         SHARE ON X
+    ========================== -->
+
+    <div class="article-share">
+
+      <button
+        type="button"
+        class="x-share-button"
+        id="xShareButton"
+      >
+
+        𝕏 Share on X
+
+      </button>
+
+    </div>
+
+
     <div class="article-back">
 
       <a href="index.html#news">
+
         ← Back to OINANCE News
+
+      </a>
+
+    </div>
+
+  `;
+
+
+  /* =========================
+     X SHARE BUTTON
+  ========================= */
+
+  const xButton =
+    document.getElementById(
+      "xShareButton"
+    );
+
+
+  if (xButton) {
+
+    xButton.addEventListener(
+      "click",
+      function () {
+
+        const articleUrl =
+          window.location.href;
+
+
+        const shareText =
+          data.title +
+          " — OINANCE Technology";
+
+
+        const xUrl =
+          "https://twitter.com/intent/tweet" +
+          "?text=" +
+          encodeURIComponent(
+            shareText
+          ) +
+          "&url=" +
+          encodeURIComponent(
+            articleUrl
+          );
+
+
+        window.open(
+          xUrl,
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(
+  container,
+  message
+) {
+
+  container.innerHTML = `
+
+    <div class="article-error">
+
+      <h1>
+        Article not found
+      </h1>
+
+      <p>
+        ${escapeHTML(message)}
+      </p>
+
+      <a href="index.html#news">
+
+        ← Back to OINANCE News
+
       </a>
 
     </div>
@@ -205,8 +313,10 @@ function escapeHTML(value) {
       "div"
     );
 
+
   div.textContent =
     value ?? "";
+
 
   return div.innerHTML;
 
