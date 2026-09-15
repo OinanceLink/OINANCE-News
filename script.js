@@ -416,3 +416,72 @@ function escapeHTML(value) {
   return div.innerHTML;
 
 }
+
+/* =========================
+   NEWSLETTER SUBSCRIPTION
+========================= */
+
+const newsletterForm =
+  document.getElementById("newsletterForm");
+
+const newsletterEmail =
+  document.getElementById("newsletterEmail");
+
+const newsletterMessage =
+  document.getElementById("newsletterMessage");
+
+
+if (newsletterForm) {
+
+  newsletterForm.addEventListener(
+    "submit",
+    async function (event) {
+
+      event.preventDefault();
+
+      const email =
+        newsletterEmail.value.trim();
+
+      if (!email) {
+        return;
+      }
+
+      newsletterMessage.textContent =
+        "Subscribing...";
+
+      try {
+
+        const { error } =
+          await supabase
+            .from("newsletter_subscribers")
+            .insert([
+              {
+                email: email
+              }
+            ]);
+
+        if (error) {
+          throw error;
+        }
+
+        newsletterMessage.textContent =
+          "You're subscribed to OINANCE News.";
+
+        newsletterForm.reset();
+
+      } catch (error) {
+
+        console.error(
+          "Newsletter subscription error:",
+          error
+        );
+
+        newsletterMessage.textContent =
+          "Something went wrong. Please try again.";
+
+      }
+
+    }
+  );
+
+}
