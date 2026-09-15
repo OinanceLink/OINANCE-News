@@ -1222,3 +1222,18 @@ button {
   }
 
 }
+
+/* =========================
+   CLICKABLE PRODUCT CARD
+========================== */
+
+.product-card {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
