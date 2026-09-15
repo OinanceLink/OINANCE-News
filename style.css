@@ -986,3 +986,142 @@ button {
   }
 
 }
+
+/* =========================
+   FULL ARTICLE PAGE
+========================= */
+
+.article-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 90px 28px 120px;
+}
+
+.article-header {
+  max-width: 900px;
+  margin-bottom: 45px;
+}
+
+.article-category {
+  display: inline-block;
+  margin-bottom: 18px;
+
+  color: #888888;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.article-header h1 {
+  margin-bottom: 25px;
+
+  color: #ffffff;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -3px;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  color: #777777;
+  font-size: 13px;
+}
+
+.article-image {
+  display: block;
+
+  width: 100%;
+  max-width: 900px;
+  height: 480px;
+
+  margin: 0 auto 55px;
+
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid #292929;
+}
+
+.article-story {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.article-story p {
+  margin-bottom: 25px;
+
+  color: #c2c2c2;
+
+  font-size: 19px;
+  line-height: 1.85;
+}
+
+.article-back {
+  max-width: 780px;
+  margin: 55px auto 0;
+  padding-top: 25px;
+
+  border-top: 1px solid #222222;
+}
+
+.article-back a {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.article-loading,
+.article-error {
+  padding: 80px 20px;
+  text-align: center;
+  color: #999999;
+}
+
+.article-error h1 {
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.article-error a {
+  display: inline-block;
+  margin-top: 25px;
+  color: #ffffff;
+}
+
+
+/* =========================
+   ARTICLE PHONE
+========================= */
+
+@media (max-width: 600px) {
+
+  .article-page {
+    padding: 55px 20px 80px;
+  }
+
+  .article-header h1 {
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: -2px;
+  }
+
+  .article-meta {
+    font-size: 12px;
+  }
+
+  .article-image {
+    height: 250px;
+    margin-bottom: 35px;
+    border-radius: 14px;
+  }
+
+  .article-story p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 23px;
+  }
+
+     }
