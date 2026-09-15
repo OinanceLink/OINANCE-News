@@ -1,479 +1,833 @@
-<!DOCTYPE html>
-<html lang="en">
+/* =========================================
+   OINANCE TECHNOLOGY
+   PROFESSIONAL ADMIN DASHBOARD
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================
+   LOGIN SCREEN
+========================================= */
+
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background:
+    radial-gradient(
+      circle at top,
+      #202020 0%,
+      #090909 45%,
+      #000000 100%
+    );
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 42px 35px;
+  background: #111111;
+  border: 1px solid #292929;
+  border-radius: 22px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
+}
+
+.login-logo {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 25px;
+  border-radius: 12px;
+}
+
+.eyebrow {
+  display: block;
+  color: #858585;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.login-card h1 {
+  margin: 12px 0 12px;
+  font-size: 36px;
+  letter-spacing: -1.5px;
+}
+
+.login-card > p {
+  margin: 0 0 30px;
+  color: #999999;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   FORMS
+========================================= */
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 9px;
+  color: #bcbcbc;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid #333333;
+  border-radius: 10px;
+  outline: none;
+  background: #191919;
+  color: #ffffff;
+  padding: 14px 15px;
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #666666;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #777777;
+  background: #1d1d1d;
+}
+
+.form-group select {
+  appearance: auto;
+}
+
+.form-group textarea {
+  min-height: 300px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 8px;
+  color: #777777;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-button {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 15px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.login-button:hover {
+  opacity: 0.85;
+}
+
+.login-message {
+  margin-top: 18px;
+  color: #999999;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* =========================================
+   DASHBOARD HEADER
+========================================= */
+
+.dashboard-header {
+  width: 100%;
+  min-height: 82px;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  background: #000000;
+  border-bottom: 1px solid #242424;
+}
+
+.dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.dashboard-brand img {
+  width: 46px !important;
+  height: 46px !important;
+  max-width: 46px !important;
+  max-height: 46px !important;
+
+  object-fit: contain;
+  display: block;
+
+  border-radius: 9px;
+}
+
+.dashboard-brand strong {
+  display: block;
+  color: #ffffff;
+  font-size: 15px;
+  letter-spacing: 3px;
+}
+
+.dashboard-brand span {
+  display: block;
+  margin-top: 4px;
+  color: #777777;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.website-link {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 10px 16px;
+
+  border: 1px solid #333333;
+  border-radius: 8px;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.website-link:hover {
+  background: #181818;
+  border-color: #555555;
+}
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 28px 100px;
+}
+
+/* =========================================
+   INTRO
+========================================= */
+
+.dashboard-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+
+  margin-bottom: 45px;
+}
+
+.dashboard-intro h1 {
+  margin: 12px 0 12px;
+
+  font-size: clamp(42px, 6vw, 68px);
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.dashboard-intro p {
+  max-width: 600px;
+  margin: 0;
+
+  color: #888888;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.primary-button {
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 9px;
+
+  padding: 14px 20px;
+
+  background: #ffffff;
+  color: #000000;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  opacity: 0.85;
+}
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 45px;
+}
+
+.stat-card {
+  min-height: 145px;
+
+  padding: 22px;
+
+  background: #111111;
+  border: 1px solid #292929;
+  border-radius: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stat-card span {
+  color: #777777;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.stat-card strong {
+  margin-top: 18px;
+
+  color: #ffffff;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.stat-card small {
+  margin-top: 6px;
+  color: #777777;
+  font-size: 12px;
+}
+
+/* =========================================
+   ARTICLE EDITOR
+========================================= */
+
+.editor-card {
+  display: none;
+
+  margin-bottom: 55px;
+  padding: 30px;
+
+  background: #111111;
+  border: 1px solid #292929;
+  border-radius: 18px;
+}
+
+.editor-card.show {
+  display: block;
+}
+
+.editor-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 35px;
+}
+
+.editor-heading h2 {
+  margin: 10px 0 0;
+
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.cancel-button {
+  border: 1px solid #333333;
+  border-radius: 8px;
+
+  padding: 10px 15px;
+
+  background: transparent;
+  color: #bbbbbb;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #1d1d1d;
+  color: #ffffff;
+}
+
+/* =========================================
+   IMAGE UPLOAD
+========================================= */
+
+input[type="file"] {
+  padding: 11px !important;
+  cursor: pointer;
+}
+
+.image-preview {
+  margin-top: 15px;
+}
+
+.image-preview img {
+  width: 180px;
+  height: 120px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+  border: 1px solid #333333;
+}
+
+/* =========================================
+   PUBLISH BUTTON
+========================================= */
+
+.publish-button {
+  width: 100%;
+
+  border: 0;
+  border-radius: 10px;
+
+  padding: 15px;
+
+  background: #ffffff;
+  color: #000000;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.publish-button:hover {
+  opacity: 0.85;
+}
+
+/* =========================================
+   ARTICLES SECTION
+========================================= */
+
+.articles-section {
+  margin-top: 10px;
+}
+
+.section-heading {
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  margin: 10px 0 0;
+
+  color: #ffffff;
+
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+/* =========================================
+   ARTICLES LIST
+========================================= */
+
+.articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* =========================================
+   ARTICLE CARD
+========================================= */
+
+.dashboard-article {
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
 
-<head>
-  <meta charset="UTF-8">
+  padding: 15px !important;
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  background: #151515 !important;
 
-  <meta
-    name="description"
-    content="OINANCE Technology Dashboard"
-  >
+  border: 1px solid #2d2d2d !important;
+  border-radius: 15px !important;
+}
 
-  <title>OINANCE Dashboard</title>
+/* =========================================
+   ARTICLE IMAGE
+========================================= */
 
-  <link rel="stylesheet" href="dashboard.css">
-</head>
+.articles-list
+.dashboard-article
+img.dashboard-article-image {
 
-<body>
+  width: 105px !important;
+  height: 75px !important;
 
-  <!-- =========================
-       LOGIN SCREEN
-  ========================== -->
+  max-width: 105px !important;
+  max-height: 75px !important;
 
-  <div id="loginScreen" class="login-screen">
+  object-fit: cover !important;
 
-    <div class="login-card">
+  display: block !important;
 
-      <img
-        src="file_000000001bdc81f496a425cbbdef65a7.png"
-        alt="OINANCE Logo"
-        class="login-logo"
-      >
+  border-radius: 9px;
 
-      <span class="eyebrow">
-        OINANCE TECHNOLOGY
-      </span>
+  flex-shrink: 0 !important;
+}
 
-      <h1>Dashboard Login</h1>
+/* =========================================
+   ARTICLE INFORMATION
+========================================= */
 
-      <p>
-        Sign in to manage OINANCE news articles.
-      </p>
+.dashboard-article-info {
+  flex: 1 !important;
+  min-width: 0;
+}
 
-      <form id="loginForm">
+.dashboard-article-info h3 {
+  margin: 0 0 8px;
 
-        <div class="form-group">
+  color: #ffffff;
 
-          <label for="loginEmail">
-            EMAIL
-          </label>
+  font-size: 17px;
+  line-height: 1.35;
+}
 
-          <input
-            type="email"
-            id="loginEmail"
-            placeholder="Enter your email"
-            required
-          >
+.dashboard-article-info p {
+  margin: 0;
 
-        </div>
+  color: #777777;
 
-        <div class="form-group">
+  font-size: 12px;
+}
 
-          <label for="loginPassword">
-            PASSWORD
-          </label>
+/* =========================================
+   DELETE BUTTON
+========================================= */
 
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter your password"
-            required
-          >
+.delete-article-button {
+  flex-shrink: 0;
 
-        </div>
+  border: 0;
+  border-radius: 8px;
 
-        <button
-          type="submit"
-          class="login-button"
-        >
-          Sign In
-        </button>
+  padding: 10px 15px;
 
-      </form>
+  background: #e02b20;
+  color: #ffffff;
 
-      <div
-        id="loginMessage"
-        class="login-message"
-      ></div>
+  font-size: 12px;
+  font-weight: 700;
 
-    </div>
+  cursor: pointer;
 
-  </div>
+  transition: background 0.2s;
+}
 
+.delete-article-button:hover {
+  background: #b91f17;
+}
 
-  <!-- =========================
-       DASHBOARD
-  ========================== -->
+/* =========================================
+   EMPTY STATE
+========================================= */
 
-  <div id="dashboardApp">
+.empty-state {
+  padding: 45px 25px;
 
-    <!-- HEADER -->
+  background: #111111;
 
-    <header class="dashboard-header">
+  border: 1px dashed #333333;
+  border-radius: 15px;
 
-      <a
-        href="index.html"
-        class="dashboard-brand"
-      >
+  color: #777777;
 
-        <img
-          src="file_000000001bdc81f496a425cbbdef65a7.png"
-          alt="OINANCE Logo"
-        >
+  text-align: center;
+}
 
-        <div>
+.empty-state strong {
+  display: block;
 
-          <strong>OINANCE</strong>
+  margin-bottom: 8px;
 
-          <span>
-            TECHNOLOGY
-          </span>
+  color: #ffffff;
+  font-size: 17px;
+}
 
-        </div>
+.empty-state p {
+  margin: 0;
 
-      </a>
+  color: #666666;
+  font-size: 13px;
+}
 
+/* =========================================
+   DASHBOARD MESSAGE
+========================================= */
 
-      <a
-        href="index.html"
-        class="website-link"
-      >
-        ← View Website
-      </a>
+.dashboard-message {
+  position: fixed;
 
-    </header>
+  left: 50%;
+  bottom: 25px;
 
+  transform: translateX(-50%);
 
-    <!-- MAIN -->
+  z-index: 1000;
 
-    <main class="dashboard-container">
+  max-width: 90%;
 
-      <!-- INTRO -->
+  padding: 12px 18px;
 
-      <section class="dashboard-intro">
+  background: #ffffff;
+  color: #000000;
 
-        <div>
+  border-radius: 8px;
 
-          <span class="eyebrow">
-            OINANCE TECHNOLOGY
-          </span>
+  font-size: 13px;
+}
 
-          <h1>
-            Dashboard
-          </h1>
+/* =========================================
+   MOBILE
+========================================= */
 
-          <p>
-            Manage your OINANCE Technology
-            website and publish news articles.
-          </p>
+@media (max-width: 750px) {
 
-        </div>
+  .dashboard-header {
+    padding: 13px 18px;
+  }
 
+  .dashboard-brand img {
+    width: 42px !important;
+    height: 42px !important;
+    max-width: 42px !important;
+    max-height: 42px !important;
+  }
 
-        <button
-          id="newArticleButton"
-          class="primary-button"
-        >
-          + New Article
-        </button>
+  .dashboard-brand strong {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
 
-      </section>
+  .dashboard-brand span {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
 
+  .website-link {
+    padding: 9px 11px;
+    font-size: 10px;
+  }
 
-      <!-- STATISTICS -->
+  .dashboard-container {
+    padding: 40px 18px 70px;
+  }
 
-      <section class="stats-grid">
+  .dashboard-intro {
+    display: block;
+    margin-bottom: 32px;
+  }
 
-        <div class="stat-card">
+  .dashboard-intro h1 {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
 
-          <span>
-            ARTICLES
-          </span>
+  .dashboard-intro p {
+    font-size: 14px;
+  }
 
-          <strong id="articleCount">
-            0
-          </strong>
+  .primary-button {
+    width: 100%;
+    margin-top: 22px;
+  }
 
-          <small>
-            Published
-          </small>
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 35px;
+  }
 
-        </div>
+  .stat-card {
+    min-height: 125px;
+    padding: 17px;
+  }
 
+  .stat-card strong {
+    font-size: 29px;
+  }
 
-        <div class="stat-card">
+  .editor-card {
+    padding: 20px;
+    border-radius: 15px;
+  }
 
-          <span>
-            TECHNOLOGY
-          </span>
+  .editor-heading {
+    margin-bottom: 25px;
+  }
 
-          <strong id="technologyCount">
-            0
-          </strong>
+  .editor-heading h2 {
+    font-size: 26px;
+  }
 
-          <small>
-            Technology stories
-          </small>
+  .form-group textarea {
+    min-height: 260px;
+  }
 
-        </div>
+  .section-heading h2 {
+    font-size: 28px;
+  }
 
+  .dashboard-article {
+    display: grid !important;
+    grid-template-columns: 90px 1fr !important;
+    gap: 13px !important;
+    padding: 13px !important;
+  }
 
-        <div class="stat-card">
+  .articles-list
+  .dashboard-article
+  img.dashboard-article-image {
 
-          <span>
-            PICTURES
-          </span>
+    width: 90px !important;
+    height: 65px !important;
 
-          <strong id="pictureCount">
-            0
-          </strong>
+    max-width: 90px !important;
+    max-height: 65px !important;
+  }
 
-          <small>
-            Article images
-          </small>
+  .dashboard-article-info h3 {
+    font-size: 14px;
+  }
 
-        </div>
+  .dashboard-article-info p {
+    font-size: 11px;
+  }
 
+  .delete-article-button {
+    grid-column: 1 / -1;
 
-        <div class="stat-card">
+    width: 100%;
 
-          <span>
-            STATUS
-          </span>
+    padding: 11px;
+  }
 
-          <strong>
-            LIVE
-          </strong>
+}
 
-          <small>
-            Website
-          </small>
+/* =========================================
+   SMALL PHONES
+========================================= */
 
-        </div>
+@media (max-width: 430px) {
 
-      </section>
+  .dashboard-header {
+    min-height: 70px;
+  }
 
+  .dashboard-brand img {
+    width: 38px !important;
+    height: 38px !important;
+    max-width: 38px !important;
+    max-height: 38px !important;
+  }
 
-      <!-- ARTICLE EDITOR -->
+  .dashboard-brand strong {
+    font-size: 11px;
+  }
 
-      <section
-        id="articleEditor"
-        class="editor-card"
-      >
+  .dashboard-brand span {
+    font-size: 7px;
+  }
 
-        <div class="editor-heading">
+  .website-link {
+    padding: 8px 9px;
+    font-size: 9px;
+  }
 
-          <div>
+  .dashboard-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 
-            <span class="eyebrow">
-              OINANCE NEWS
-            </span>
+  .dashboard-intro h1 {
+    font-size: 42px;
+  }
 
-            <h2>
-              Create Article
-            </h2>
+  .stats-grid {
+    gap: 8px;
+  }
 
-          </div>
+  .stat-card {
+    padding: 14px;
+  }
 
+  .stat-card span {
+    font-size: 8px;
+  }
 
-          <button
-            id="cancelButton"
-            class="cancel-button"
-            type="button"
-          >
-            Cancel
-          </button>
+  .stat-card strong {
+    font-size: 25px;
+  }
 
-        </div>
+  .stat-card small {
+    font-size: 10px;
+  }
 
+  .editor-card {
+    padding: 16px;
+  }
 
-        <form id="articleForm">
-
-          <!-- HEADLINE -->
-
-          <div class="form-group">
-
-            <label for="articleTitle">
-              HEADLINE
-            </label>
-
-            <input
-              type="text"
-              id="articleTitle"
-              placeholder="Enter article headline"
-              required
-            >
-
-          </div>
-
-
-          <!-- CATEGORY -->
-
-          <div class="form-group">
-
-            <label for="articleCategory">
-              CATEGORY
-            </label>
-
-            <select
-              id="articleCategory"
-            >
-
-              <option value="Technology">
-                Technology
-              </option>
-
-              <option value="AI">
-                AI
-              </option>
-
-              <option value="Blockchain">
-                Blockchain
-              </option>
-
-              <option value="Business">
-                Business
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <!-- AUTHOR -->
-
-          <div class="form-group">
-
-            <label for="articleAuthor">
-              AUTHOR
-            </label>
-
-            <input
-              type="text"
-              id="articleAuthor"
-              value="OINANCE Editorial"
-            >
-
-          </div>
-
-
-          <!-- PICTURE -->
-
-          <div class="form-group">
-
-            <label for="articleImage">
-              ARTICLE PICTURE
-            </label>
-
-            <input
-              type="file"
-              id="articleImage"
-              accept="image/*"
-            >
-
-            <small>
-              Choose a picture from your phone.
-            </small>
-
-            <div
-              id="imagePreview"
-              class="image-preview"
-            ></div>
-
-          </div>
-
-
-          <!-- ARTICLE -->
-
-          <div class="form-group">
-
-            <label for="articleStory">
-              ARTICLE
-            </label>
-
-            <textarea
-              id="articleStory"
-              rows="12"
-              placeholder="Write your complete article here..."
-              required
-            ></textarea>
-
-          </div>
-
-
-          <!-- PUBLISH -->
-
-          <button
-            type="submit"
-            class="publish-button"
-          >
-            Publish Article
-          </button>
-
-        </form>
-
-      </section>
-
-
-      <!-- ARTICLES -->
-
-      <section class="articles-section">
-
-        <div class="section-heading">
-
-          <div>
-
-            <span class="eyebrow">
-              CONTENT
-            </span>
-
-            <h2>
-              Published Articles
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="articlesList"
-          class="articles-list"
-        >
-
-          <div class="empty-state">
-
-            <strong>
-              No articles yet
-            </strong>
-
-            <p>
-              Your published OINANCE News
-              articles will appear here.
-            </p>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-
-    <!-- MESSAGE -->
-
-    <div
-      id="dashboardMessage"
-      class="dashboard-message"
-    ></div>
-
-  </div>
-
-
-  <!-- =========================
-       SUPABASE
-  ========================== -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script src="dashboard.js"></script>
-
-</body>
-
-            </html>
+}
