@@ -182,6 +182,20 @@ async function loadNews() {
         document.createElement("article");
 
       card.className = "news-card";
+       const card =
+  document.createElement("article");
+
+card.className = "news-card";
+
+card.style.cursor = "pointer";
+
+card.addEventListener("click", function () {
+
+  window.location.href =
+    "article.html?id=" +
+    encodeURIComponent(article.id);
+
+});
 
 
       const image =
