@@ -193,3 +193,59 @@ body {
 .articles-list .dashboard-article-info {
   flex: 1 !important;
 }
+
+/* =========================================
+   RESTORE OINANCE DASHBOARD HEADER
+   ========================================= */
+
+.dashboard-header {
+  background: #000 !important;
+  color: #fff !important;
+  padding: 18px 20px !important;
+  border-radius: 12px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 15px !important;
+}
+
+/* Keep the OINANCE logo at a normal size */
+.dashboard-header img {
+  width: auto !important;
+  height: 45px !important;
+  max-width: 180px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* Header text */
+.dashboard-header h1 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+}
+
+.dashboard-header p {
+  margin: 5px 0 0 !important;
+  color: #ccc !important;
+  font-size: 13px !important;
+}
+
+/* Mobile header */
+@media (max-width: 650px) {
+
+  .dashboard-header {
+    padding: 15px !important;
+    gap: 10px !important;
+  }
+
+  .dashboard-header img {
+    height: 36px !important;
+    max-width: 145px !important;
+  }
+
+  .dashboard-header h1 {
+    font-size: 20px !important;
+  }
+}
