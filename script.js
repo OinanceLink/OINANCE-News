@@ -35,6 +35,8 @@ document.addEventListener(
 
     loadNews();
 
+    setupNewsletter();
+
   }
 );
 
@@ -62,6 +64,7 @@ function setupMobileMenu() {
     function () {
 
       mobileMenu.classList.toggle("open");
+
 
       if (
         mobileMenu.classList.contains("open")
@@ -398,6 +401,145 @@ async function loadNews() {
 
 
 /* =========================
+   NEWSLETTER
+========================= */
+
+function setupNewsletter() {
+
+  const newsletterForm =
+    document.getElementById(
+      "newsletterForm"
+    );
+
+
+  const newsletterEmail =
+    document.getElementById(
+      "newsletterEmail"
+    );
+
+
+  const newsletterMessage =
+    document.getElementById(
+      "newsletterMessage"
+    );
+
+
+  if (
+    !newsletterForm ||
+    !newsletterEmail ||
+    !newsletterMessage
+  ) {
+
+    return;
+
+  }
+
+
+  newsletterForm.addEventListener(
+    "submit",
+    async function (event) {
+
+      event.preventDefault();
+
+
+      const email =
+        newsletterEmail.value
+          .trim()
+          .toLowerCase();
+
+
+      if (!email) {
+
+        newsletterMessage.textContent =
+          "Please enter your email.";
+
+        return;
+
+      }
+
+
+      newsletterMessage.textContent =
+        "Subscribing...";
+
+
+      try {
+
+        /* =========================
+           SAVE SUBSCRIBER
+        ========================= */
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from(
+              "newsletter_subscribers"
+            )
+            .insert([
+              {
+                email: email
+              }
+            ]);
+
+
+        if (error) {
+
+          console.error(
+            "Supabase newsletter error:",
+            error
+          );
+
+          throw error;
+
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        newsletterMessage.textContent =
+          "You're subscribed to OINANCE News.";
+
+        newsletterForm.reset();
+
+
+      } catch (error) {
+
+        console.error(
+          "Newsletter subscription error:",
+          error
+        );
+
+
+        /* =========================
+           FRIENDLY ERRORS
+        ========================= */
+
+        if (
+          error.code ===
+          "23505"
+        ) {
+
+          newsletterMessage.textContent =
+            "This email is already subscribed.";
+
+        } else {
+
+          newsletterMessage.textContent =
+            "Something went wrong. Please try again.";
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
    SECURITY
 ========================= */
 
@@ -415,73 +557,4 @@ function escapeHTML(value) {
 
   return div.innerHTML;
 
-}
-
-/* =========================
-   NEWSLETTER SUBSCRIPTION
-========================= */
-
-const newsletterForm =
-  document.getElementById("newsletterForm");
-
-const newsletterEmail =
-  document.getElementById("newsletterEmail");
-
-const newsletterMessage =
-  document.getElementById("newsletterMessage");
-
-
-if (newsletterForm) {
-
-  newsletterForm.addEventListener(
-    "submit",
-    async function (event) {
-
-      event.preventDefault();
-
-      const email =
-        newsletterEmail.value.trim();
-
-      if (!email) {
-        return;
-      }
-
-      newsletterMessage.textContent =
-        "Subscribing...";
-
-      try {
-
-        const { error } =
-  await supabaseClient
-    .from("newsletter_subscribers")
-    .insert([
-      {
-        email: email
-      }
-    ]);
-
-        if (error) {
-          throw error;
-        }
-
-        newsletterMessage.textContent =
-          "You're subscribed to OINANCE News.";
-
-        newsletterForm.reset();
-
-      } catch (error) {
-
-        console.error(
-          "Newsletter subscription error:",
-          error
-        );
-
-        newsletterMessage.textContent =
-  "Error: " + error.message;
-
-      }
-
-    }
-  );
-
-}
+       }
